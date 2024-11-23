@@ -67,17 +67,6 @@ public class AnalizadorLexico {
     }
 
     public static void main(String[] args) {
-        Automata automata = new Automata();
-
-        String cadena = "ab"; // Ejemplo de cadena de entrada
-        if (automata.procesarCadena(cadena)) {
-            System.out.println("La cadena '" + cadena + "' es aceptada.");
-        } else {
-            System.out.println("La cadena '" + cadena + "' es rechazada.");
-        }
-    }
-
-    public static void main(String[] args) {
         // AnalizadorLexico automata = new AnalizadorLexico();
         // String nombreArchivo = "codigo.txt";
         // automata.procesarArchivo(nombreArchivo);
