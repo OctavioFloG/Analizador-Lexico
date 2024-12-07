@@ -10,9 +10,9 @@ public class AnalizadorLexico {
 
     protected static String[][] matrizTransicion;
 
-    protected static char[] caracteres = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '%', '{', '}', '(', ')', '[', ']', '.', ' ', '_', '$', '^', '<', '>', '&', '|', '!', ';', ',', '\'', '"' };
+    protected static char[] caracteres = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '%', '{', '}', '(', ')', '[', ']', '.', ' ', '_', '$', '^', '<', '>', '&', '|', '!', ';', ',', '\'', '"', '=' };
 
-    protected static String[] estados = { "q0", "q1010.1", "q1010.2", "q1010.3", "q1010.4", "q1010.5", "q1010.6", "q1010.7", "q1020.1", "q1020.2" };
+    protected static String[] estados = { "q0", "q1010.1", "q1010.2", "q1010.3", "q1010.4", "q1010.5", "q1010.6", "q1010.7", "q1020.1", "q1020.2","q1020.3" };
 
     protected static String[] estadosFinales = { "q1010.7", "q1020.5", "q1030.2", "q1040.6", "q1050.4", "q1060.5", 
     "q1070.3", "q1080.2", "q1090.6", "q1100.3", "q1110.4", "q1120.3", "q1130.7", "q1140.7", "q1150.6", "q1160.6", 
@@ -36,7 +36,6 @@ public class AnalizadorLexico {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
 
-            // Leer el archivo línea por línea
             while ((line = br.readLine()) != null) {
                 // Dividir la línea en columnas usando el delimitador (tabulación en este caso)
                 String[] columns = line.split("\t");
@@ -64,12 +63,12 @@ public class AnalizadorLexico {
         ExcelToArray();
         String nombreArchivo = "codigo.txt";
         automata.procesarArchivo(nombreArchivo);
-        for (int i = 0; i < estadosFinales.length; i++) {
-            while (matrizTransicion[obtenerFila("q0")][obtenerColumna('a')] != estadosFinales[i]) {
+        // for (int i = 0; i < estadosFinales.length; i++) {
+        //     while (matrizTransicion[obtenerFila("q0")][obtenerColumna('a')] != estadosFinales[i]) {
 
-            }
-        }
-        System.out.println(matrizTransicion[0][1]);
+        //     }
+        // }
+        
         // try {
         // leerArchivoCaracterPorCaracter(nombreArchivo);
         // } catch (IOException e) {
@@ -99,16 +98,17 @@ public class AnalizadorLexico {
                 return i;
             }
         }
+        System.out.println("Error, no se encontró el caracter: "+simbolo);
         return -1;
     }
 
     private static int obtenerFila(String estado) {
-        System.out.println(estado);
         for (int i = 0; i < estados.length; i++) {
-            if (estados[i] == estado) {
+            if (estados[i].equals(estado)) {
                 return i;
             }
         }
+        System.out.println("Error, no se encontró el estado: "+estado);
         return -1;
     }
 
@@ -120,9 +120,10 @@ public class AnalizadorLexico {
             int caracter;
 
             while ((caracter = fr.read()) != -1) {
-                System.out.println((char) caracter);
-                // Buscar el estado resultante en la matriz de transición
-                String nuevoEstado = matrizTransicion[obtenerFila(estadoActual)][obtenerColumna((char) caracter)];
+                System.out.println(estadoActual);
+                int fila = obtenerFila(estadoActual);
+                int columna = obtenerColumna((char) caracter);
+                String nuevoEstado = matrizTransicion[fila][columna];
                 if (nuevoEstado == null) {
                     System.out.println("Error: Transición no válida para el carácter '" + (char) caracter + "'");
                     return;
