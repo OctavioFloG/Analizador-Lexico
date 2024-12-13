@@ -1,1 +1,1 @@
-boolean
+boolean class exception asdasd 99.2 asdads;
